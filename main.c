@@ -20,36 +20,38 @@ int main() {
 
     nodelay(stdscr, TRUE);
 
+    int is_paused = 0;
+
     while(1) {
         erase(); 
          
         print_world(w, max_y, max_x);
         
-        update_world(w);
+        if( !is_paused )
+            update_world(w);
 
         refresh();
     
         int c = getch();
 
+        /* Toggle pause */
+        if( c == 'p' ) 
+            is_paused = 1-is_paused;
+
         /* Restart from random */
-        if( c == 'r' ) {
+        if( c == 'r' )
             randomize_world(w);
-        }
         
         /* Slower */
-        if( c == 's') {
+        if( c == 's') 
             delay += d_delay;
-        }
 
         /* Faster */
-        if( c == 'f') {
+        if( c == 'f') 
             delay = max(min_delay, delay - d_delay);
-        }
         
-        if( c == 'q' ) {
+        if( c == 'q' ) 
             break;
-        }
-
 
         usleep(delay);
     }
